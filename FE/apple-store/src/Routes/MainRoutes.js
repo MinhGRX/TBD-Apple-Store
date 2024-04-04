@@ -1,3 +1,4 @@
+import Homepage from "../Pages/homepage";
 import Login from "../Pages/login";
 import Register from "../Pages/register";
 
@@ -11,6 +12,11 @@ const MainRoutes = [
         path: 'sign-up',
         component: Register,
         title: 'Register'
+    },
+    {
+        path: 'home',
+        component: Homepage,
+        title: 'Homepage'
     }
 ];
 
