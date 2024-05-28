@@ -14,7 +14,7 @@ const MainRoutes = [
         title: 'Register'
     },
     {
-        path: 'home',
+        path: '',
         component: Homepage,
         title: 'Homepage'
     }
