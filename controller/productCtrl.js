@@ -1,0 +1,17 @@
+const asyncHandler = require("express-async-handler");
+const Product = require("../models/productModel");
+
+
+const createProduct = asyncHandler(async (req, res) => {
+    try {
+        const newProduct = await Product.create(res.body);
+        res.json(newProduct);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+
+module.exports = {
+    createProduct,
+}
