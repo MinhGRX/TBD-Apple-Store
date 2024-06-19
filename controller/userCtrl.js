@@ -2,10 +2,11 @@ const { json } = require('body-parser');
 const { generateToken } = require('../config/jwtToken');
 const User = require('../models/userModel')
 const asyncHandler = require('express-async-handler');
-const userModel = require('../models/userModel');
 const { validateMongoDbId } = require('../utils/validateMongodbId');
 const { generateRefreshToken } = require('../config/refreshtoken');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const { use } = require('../routes/productRoute');
 
 // Create a user
 const createUser = asyncHandler(async (req, res) => {
@@ -204,6 +205,21 @@ const unblockUser = asyncHandler(async (req, res) => {
     }
 });
 
+// Update password
+const updatePassword = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    const { password } = req.body;
+    validateMongoDbId(_id);
+    const user = await User.findById(_id);
+    if (password) {
+        user.password = password;
+        const updatedPassword = await user.save();
+        res.json(updatedPassword);
+    } else {
+        res.json(user);
+    }
+});
+
 module.exports = {
     createUser, 
     loginUserCtrl, 
@@ -215,4 +231,5 @@ module.exports = {
     unblockUser,
     handleRefreshToken,
     logout,
+    updatePassword,
 };
