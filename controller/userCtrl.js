@@ -7,6 +7,8 @@ const { generateRefreshToken } = require('../config/refreshtoken');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { use } = require('../routes/productRoute');
+const { send } = require('process');
+const { sendEmail } = require('./emailCtrl');
 
 // Create a user
 const createUser = asyncHandler(async (req, res) => {
@@ -220,6 +222,46 @@ const updatePassword = asyncHandler(async (req, res) => {
     }
 });
 
+const forgotPasswordToken = asyncHandler(async (req, res) => {
+    const {email} = req.body;
+    const user = await User.findOne({ email });
+    if (!user) throw new Error("User not found with this email");
+    try {
+        const token = await user.createPasswordResetToken();
+        await user.save();
+        const resetURL = `Hi, Please follow this link to reset your Password. This link is valid till 10 minutes from now. <a href = 'http://localhost:5000/api/user/reset-password/${token}>Click Here</>`
+        const data = {
+            to: email,
+            subject: "Forgot Password Link",
+            text: "Hey User",
+            htm: resetURL,
+        };
+        sendEmail(data);
+        res.json(token);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+    const { password } = req.body;
+    const { token } = req.params;
+    const hashedToken = crypto
+        .createHash("sha256")
+        .update(token)
+        .digest("hex");
+    const user = await User.findOne({
+        passwordResetToken: hashedToken,
+        passwordResetExpires: { $gt: Date.now() },
+    });
+    if(!user) throw new Error("Token expired! Please try again later.");
+    user.password = password;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+    res.json(user);
+});
+
 module.exports = {
     createUser, 
     loginUserCtrl, 
@@ -232,4 +274,6 @@ module.exports = {
     handleRefreshToken,
     logout,
     updatePassword,
+    forgotPasswordToken,
+    resetPassword,
 };

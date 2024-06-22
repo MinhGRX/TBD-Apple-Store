@@ -42,6 +42,7 @@ var userSchema = new mongoose.Schema({
     refreshToken:{
         type: String,
     },
+    passwordChangedAt: {type: Date},
     passwordResetToken: { type: String },
     passwordResetExpires: { type: Date },
 },
@@ -52,10 +53,13 @@ var userSchema = new mongoose.Schema({
 
 userSchema.pre("save", async function(next) {
     if (!this.isModified("password")) {
-        next();
+        return next();
     }
-    const salt = await bcrypt.genSaltSync(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await bcrypt.hash(this.password, 10);
+    if (!this.isNew) {
+        // Set passwordChangedAt to current time (adjusting slightly to ensure it is always updated)
+        this.passwordChangedAt = Date.now() - 1000; // Adjust by 1 second to account for token generation delays
+    }
     next();
 });
 
