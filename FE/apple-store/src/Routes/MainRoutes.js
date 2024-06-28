@@ -1,16 +1,16 @@
-import Homepage from "../Pages/homepage";
-import Login from "../Pages/login";
-import Register from "../Pages/register";
+import Homepage from "../UI-Component/homepage";
+import SignIn from "../UI-Component/SignIn";
+import SignUp from "../UI-Component/SignUp";
 
 const MainRoutes = [
     {
         path: 'sign-in',
-        component: Login,
+        component: SignIn,
         title: 'Sign In'
     },
     {
         path: 'sign-up',
-        component: Register,
+        component: SignUp,
         title: 'Register'
     },
     {
