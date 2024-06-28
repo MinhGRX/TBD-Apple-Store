@@ -1,59 +1,77 @@
 import '../CSS/SignIn.css';
 import React from 'react';
-import {
-  MDBContainer,
-  MDBCol,
-  MDBRow,
-  MDBBtn,
-  MDBIcon,
-  MDBInput,
-  MDBCheckbox
-}
-from 'mdb-react-ui-kit';
+import avatar from '../Asset/iphone.jpg';
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import Checkbox from '@mui/material/Checkbox';
 
-function SignIn(){
+function SignIn() {
+  const usernameRef = useRef();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("handle submit");
+  };
+  useEffect(() => {
+    usernameRef.current.focus();
+  }, []);
+
+  const label = { inputProps: { 'aria-label': 'Remember Me' } };
+
+  const navigate = useNavigate();
+
+  const GotoHome = () => {
+    navigate('/homepage');
+  }
   return(
-    <MDBContainer fluid className="p-3 my-5">
+    <div class="background">
+        <div class="outerbox">
+            <div class="innerbox">
+                <div class="loginbox">
+                    <div class="form-container">                        
+                        <div class="form-field">
 
-      <MDBRow>
+                            <h1> Sign In </h1>
+                                <form onSubmit={handleSubmit} className="form__container">
+                                  <div className="form__controls">
+                                    <label htmlFor="username">Username</label>
+                                    <input
+                                      ref={usernameRef}
+                                      type="text"
+                                      id="username"
+                                      value={username}
+                                      onChange={(e) => setUsername(e.target.value)}
+                                    />
+                                  </div>
 
-        <MDBCol col='10' md='6'>
-          <img src="" class="img-fluid" alt="Phone image" />
-        </MDBCol>
+                                  <div className="form__controls">
+                                    <label htmlFor="password">Password</label>
+                                    <input
+                                      id="password"
+                                      type="password"
+                                      value={password}
+                                      onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                  </div>
 
-        <MDBCol col='4' md='6'>
+                                  <div>
+                                    <Checkbox {...label} defaultChecked/>
+                                  </div>
 
+                                  <div className="form__controls">
+                                    <button className="button" onClick={GotoHome}>Login</button>
+                                  </div>
+                                </form>
+                        </div>
 
-          <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
-
-
-          <div className="d-flex justify-content-between mx-4 mb-4">
-            <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
-            <a href="sign-up">Create new account</a>
-          </div>
-
-          <MDBBtn className="mb-4 w-100" size="lg">Sign in</MDBBtn>
-
-          <div className="divider d-flex align-items-center my-4">
-            <p className="text-center fw-bold mx-3 mb-0">OR</p>
-          </div>
-
-          <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#3b5998'}}>
-            <MDBIcon fab icon="facebook-f" className="mx-2"/>
-            Continue with facebook
-          </MDBBtn>
-
-          <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#55acee'}}>
-            <MDBIcon fab icon="twitter" className="mx-2"/>
-            Continue with twitter
-          </MDBBtn>
-
-        </MDBCol>
-
-      </MDBRow>
-
-    </MDBContainer>
+                        <figure><img class="image" src={avatar} alt="Image"/></figure> 
+                        
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
   );
 }
 

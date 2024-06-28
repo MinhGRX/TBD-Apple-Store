@@ -1,7 +1,134 @@
-.divider:after,
-.divider:before {
-  content: "";
+
+.background{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('../Asset/background1.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;	
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.outerbox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin: 0 auto;
+  width: 25cm;
+  height: 15cm;
+  border-radius: 10px;
+}
+
+.innerbox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  background-color: rgb(240, 240, 240);
+  padding: 10px;
+  width: 24cm;
+  height: 14cm;
+  border-radius: 10px;
+}
+
+
+.loginbox{
+  background-color: white;
+  width: 22cm;
+  height: 12cm;
+  box-shadow: 0px 0px 2.5px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+h1{
+  text-transform: uppercase;
+  color: black;
+  margin-top: 30px;
+  margin-left: 80px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.image{
+  margin-top: 70px;
   flex: 1;
-  height: 1px;
-  background: #eee;
+  text-align: right;
+  width: 420px;
+  height: 280px;
+}
+
+.username{
+  margin-left: 20px;
+  margin-bottom: 25px;
+}
+
+.password{
+  margin-left: 20px;
+  margin-bottom: 25px;
+}
+
+
+.form-field{
+  font-family: sans-serif;
+  flex: 1;
+  text-align: center;
+  margin-bottom: 10px;
+  flex-direction: column;
+}
+
+.checkbox{
+  margin-left: 20px;
+  margin-bottom: 30px;
+}
+
+.floatingInput{
+  size: 140%;
+}
+
+.button{
+  height: 40px;
+  width: 100px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+
+.form-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.form__controls {
+  margin: 10px;
+  padding: 5px;
+}
+.form__controls > label {
+  margin-right: 10px;
+  width: 100px;
+  height: 30px;
+}
+.form__controls > input {
+  width: 200px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  transition: 0.1s ease-in-out;
+}
+.form__controls > input:focus {
+  outline: 2px solid #84c586;
+  outline-offset: 1px;
+  transform: scale(1.05);
 }
