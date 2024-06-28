@@ -10,14 +10,23 @@ const authMiddleware = asyncHandler(async(req, res, next) => {
             if(token) {
                 const decoded = jwt.verify(token, process.env.JWT_SECRET);
                 const user = await User.findById(decoded?.id);
+
+                // Log for debugging
+                // console.log("decoded id:", decoded.id);
+                // console.log("user:", user);
+
+                if (!user) {
+                    return res.status(401).json({ message: "User not found" });
+                }
+
                 req.user = user;
                 next();
             }
         } catch (error) {
-            throw new Error("Not Authorized token expired, Please Login again!");
+            res.status(401).json({ message: "Not Authorized, token expired. Please Login again!" });
         }
     } else {
-        throw new Error("There is no token attached to header!");
+        res.status(401).json({ message: "No token attached to header!" });
     }
 });
 
